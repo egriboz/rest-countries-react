@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from 'react'
 
-import Countries from './Countries'
+import Navbar from './Navbar'
 import Search from './Search'
-
+import Countries from './Countries'
 
 class App extends Component {
     render() {
         return (
             <>
-                <Search />
-                <Countries />
+              <Navbar title="Country Info"/>
+              <Search />
+              <Countries />
             </>
         )
     }

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import Country from './Country'
 
-class Countries extends Component {   
+export class Countries extends Component {   
     render() {
       return (
         <div>
             Countries
+            <Country/>
         </div>
       ) 
     }

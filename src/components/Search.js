@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class Search extends Component {
+export class Search extends Component {
 
   render() {
     return (
