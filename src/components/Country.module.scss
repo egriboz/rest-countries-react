@@ -1,0 +1,17 @@
+.countryBox {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ededed;
+  
+  margin-bottom: 10px;
+  height: 40px;
+  > div {
+    padding: 5px;
+  }
+  .flag {
+    width: 40px;
+    height: auto;
+    min-height: 20px;
+    border: 1px solid #ededed;
+  }
+}
