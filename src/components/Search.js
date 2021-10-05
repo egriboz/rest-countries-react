@@ -9,33 +9,36 @@ export class Search extends Component {
     this.state = {
       keyword: ''
     }
+    console.log(this.props.loading);
   }
 
   onChange(e) {
-      this.setState({
-        keyword: e.target.value
-      })
-      
+    this.setState({
+      keyword: e.target.value
+    })
   }
   onSubmit(e) {
     e.preventDefault();
-    if (this.state.keyword.length >= 3){
+    if (this.state.keyword.length == 0){
+      this.props.getAllCountries();
+    } else {
       this.props.searchCountries(this.state.keyword);
     }
   }
   render() {
-    const helloWorld = 'Welcome to the Road to learn React';
     
     return (
-      <div>
-        <form onSubmit={this.onSubmit}>
+      <>
+        <form onSubmit={this.onSubmit} style={{marginTop: "20px"}}>
           <input type="text" onChange={this.onChange}/>
           {/* {this.state.keyword.length >= 3 && (
             <button type="submit">Search</button>
           ) } */}
-          <button type="submit" disabled={this.state.keyword.length >= 3 ? "" : "disabled"}>Search</button>
+          <button type="submit" >Search</button>
+          {/* disabled={this.state.keyword.length >= 3 ? "" : "disabled"} */}
         </form>
-      </div>
+        {!this.props.loading && <p>Found {this.props.length} countries</p> }
+      </>
     )
   }
 }
