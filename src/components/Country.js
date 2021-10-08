@@ -3,10 +3,10 @@ import cn from 'classnames'
 import styles from './Country.module.scss'
 import { Link } from 'react-router-dom';
 
-export class Country extends Component {
+class Country extends Component {
   render() {
-    const {name, region, flag, capital, alpha3Code} = this.props.country;
-    // console.log("dsdsdsdsds", this.props.country);
+    const {name, region, flag, flags, svg, png, capital, alpha3Code, borders} = this.props.country;
+    // console.log("Country", this.props.country.borders);
     return (
       <div className={cn('container', styles.countryBox)}>
         <div>

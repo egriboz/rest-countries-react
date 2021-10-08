@@ -8,9 +8,18 @@ export class Search extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       keyword: ''
+      // data: []
     }
     console.log(this.props.loading);
   }
+  componentDidMount() {
+    // fetch(`https://restcountries.com/v2/all`)
+    //   .then(res => res.json())
+    //   .then(json => this.setState({ data: json }));
+
+    console.log("search did mount")
+  } 
+  
 
   onChange(e) {
     this.setState({
@@ -29,6 +38,14 @@ export class Search extends Component {
     
     return (
       <>
+        {/* <ul>
+          {this.state.data.map(item => (
+            <li key={item.name}>
+              {item.name}: {item.flags.png}
+
+            </li>
+          ))}
+        </ul> */}
         <form onSubmit={this.onSubmit} style={{marginTop: "20px"}}>
           <input type="text" onChange={this.onChange}/>
           {/* {this.state.keyword.length >= 3 && (
