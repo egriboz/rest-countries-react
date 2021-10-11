@@ -5,7 +5,6 @@ import Search from './Search'
 import Countries from './Countries'
 import About from './Pages/About';
 import CountryDetails from './CountryDetails';
-// import Borders from './Borders';
 
 class App extends Component {
   constructor(props) {
@@ -23,9 +22,6 @@ class App extends Component {
     }
   }
   
-  // componentWillMount(){
-  //   console.log('First called...');
-  // }
   async componentDidMount(){
     this.getAllCountries();
   }
@@ -41,8 +37,6 @@ class App extends Component {
     }
   }
 
-  
-
   async searchCountries(keyword){
     try {
       this.setState({loading: true})
@@ -54,11 +48,6 @@ class App extends Component {
     }
   }
   async getCountry(alpha3Code){
-    // this.setState({loading: true})
-    // axios
-    // .get(`https://restcountries.com/v2/alpha/${alpha3Code}`)
-    // // .then(response => console.log("countries-----:", response));
-    // .then(response => this.setState({country: response.data, loading: false}));
     try {
       this.setState({loading: true})
       const response = await fetch(`https://restcountries.com/v2/alpha/${alpha3Code}`);
@@ -69,29 +58,6 @@ class App extends Component {
     }
   }
 
-  // async getCountryBorders(alpha3Code){
-  //   try {
-  //     const response = await fetch(`https://restcountries.com/v2/alpha/tur`);
-  //     const jsonData = await response.json();
-  //     const bbb = ["Bruce", "Clark", "Diana"]
-  //     const names = await Promise.all(
-  //           bbb.map((border) => console.log(border,"aaa"))
-  //         );
-  //   } catch (error) {
-  //     console.log("error = > ", error);
-  //   }
-  // }
-
-  // getCountryBorders(alpha3Code){
-  //   this.setState({loading: true})
-  //   axios
-  //   .get(`https://restcountries.com/v2/alpha/tur`)
-  //   .then(response => {
-  //     const allBorders = response.data.borders.map((item) => item);
-  //     const obj = Object.assign({}, allBorders);
-  //     this.setState({allborders: allBorders})
-  //   });
-  // }
   async getCountryBorders(alpha3Code){
     try {
       this.setState({loading: true})
@@ -106,7 +72,7 @@ class App extends Component {
   }
   
   async aFunc(){
-    console.log("this-state-------", this.state.countryborders);
+    //console.log("this-state-------", this.state.countryborders);
     try {
       this.setState({loading: true})
       const response = await fetch(`https://restcountries.com/v2/alpha?codes=${this.state.countryborders}`);
@@ -126,7 +92,6 @@ class App extends Component {
           <Route exact path="/" render={ props => (
               <>
                 <Search searchCountries={this.searchCountries} getAllCountries={this.getAllCountries} loading={this.state.loading} length={this.state.countries.length}/>
-                {/* <Borders {...props} getCountryBorders={this.getCountryBorders} allborders={this.state.allborders}/> */}
                 <Countries countries={this.state.countries} loading={this.state.loading} />
               </>
             )

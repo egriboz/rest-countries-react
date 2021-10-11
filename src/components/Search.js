@@ -10,7 +10,7 @@ export class Search extends Component {
       keyword: ''
       // data: []
     }
-    console.log(this.props.loading);
+    // console.log(this.props.loading);
   }
   componentDidMount() {
     // fetch(`https://restcountries.com/v2/all`)
@@ -38,14 +38,6 @@ export class Search extends Component {
     
     return (
       <>
-        {/* <ul>
-          {this.state.data.map(item => (
-            <li key={item.name}>
-              {item.name}: {item.flags.png}
-
-            </li>
-          ))}
-        </ul> */}
         <form onSubmit={this.onSubmit} style={{marginTop: "20px"}}>
           <input type="text" onChange={this.onChange}/>
           {/* {this.state.keyword.length >= 3 && (
