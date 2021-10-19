@@ -88,7 +88,6 @@ class App extends Component {
   }
 
   async aFunc() {
-    //console.log("this-state-------", this.state.countryborders);
     try {
       this.setState({ loading: true })
       const response = await fetch(

@@ -1,46 +1,40 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import Borders from './Borders'
 import Loading from './Loading'
 
-class CountryDetails extends Component {
-  constructor(props) {
-    super(props)
-  }
-  componentDidMount() {
-    this.props.getCountry(this.props.match.params.alpha3Code)
-    this.props.getCountryBorders(this.props.match.params.alpha3Code)
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    // console.log("componentDidUpdate", this.props.match.params.alpha3Code);
-  }
+const CountryDetails = ({
+  getCountry,
+  getCountryBorders,
+  // countryborders,
+  borderlists,
+  country,
+  match,
+  loading
+}) => {
+  useEffect(() => {
+    getCountry(match.params.alpha3Code)
+    getCountryBorders(match.params.alpha3Code)
+  }, [])
+  if (loading) {
+    return <Loading />
+  } else {
+    return (
+      <div>
+        <Borders borders={borderlists} />
+        {/* {borderlists &&
+          borderlists.map((item) => {
+            return <div key={item.name}>{item.name}</div>
+          })} */}
 
-  render() {
-    const { name, region, flag, flags, alpha3Code, borders } =
-      this.props.country
-    const names = ['Bruce', 'Clark', 'Diana']
-
-    const items = this.props.countryborders
-    const borderlists = this.props.borderlists
-
-    // console.log("countryborders: ", borderlists);
-    // console.log(this.props)
-    if (this.props.loading) {
-      return <Loading />
-    } else {
-      return (
-        <div>
-          <Borders borders={borderlists} />
-          {items &&
-            items.map((item) => {
-              return <div key={item}>{item}</div>
-            })}
-          <p>{name}</p>
-          <p>
-            <img src={flag} width={100} />
-          </p>
-        </div>
-      )
-    }
+        {country.name && <p>{country.name}</p>}
+        {country.nativeName && <p>{country.nativeName}</p>}
+        {country.region && <p>{country.region}</p>}
+        {country.subregion && <p>{country.subregion}</p>}
+        <p>
+          <img src={country.flag} width={100} />
+        </p>
+      </div>
+    )
   }
 }
 
