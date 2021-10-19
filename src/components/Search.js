@@ -1,52 +1,33 @@
-import React, { Component, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-export class Search extends Component {
-  constructor(props) {
-    super(props)
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.state = {
-      keyword: ''
-      // data: []
-    }
-    // console.log(this.props.loading);
-  }
-  componentDidMount() {
-    // fetch(`https://restcountries.com/v2/all`)
-    //   .then(res => res.json())
-    //   .then(json => this.setState({ data: json }));
+const Search = ({ getAllCountries, searchCountries, loading, length }) => {
+  const [keyword, setKeyword] = useState('')
 
-    console.log('search did mount')
-  }
+  useEffect(() => {
+    console.log(loading)
+  }, [])
 
-  onChange(e) {
-    this.setState({
-      keyword: e.target.value
-    })
+  const onChange = (e) => {
+    setKeyword(e.target.value)
   }
-  onSubmit(e) {
+  const onSubmit = (e) => {
     e.preventDefault()
-    if (this.state.keyword.length == 0) {
-      this.props.getAllCountries()
+    if (keyword.length == 0) {
+      getAllCountries()
     } else {
-      this.props.searchCountries(this.state.keyword)
+      searchCountries(keyword)
     }
   }
-  render() {
-    return (
-      <>
-        <form onSubmit={this.onSubmit} style={{ marginTop: '20px' }}>
-          <input type="text" onChange={this.onChange} />
-          {/* {this.state.keyword.length >= 3 && (
-            <button type="submit">Search</button>
-          ) } */}
-          <button type="submit">Search</button>
-          {/* disabled={this.state.keyword.length >= 3 ? "" : "disabled"} */}
-        </form>
-        {!this.props.loading && <p>Found {this.props.length} countries</p>}
-      </>
-    )
-  }
+
+  return (
+    <>
+      <form onSubmit={onSubmit} style={{ marginTop: '20px' }}>
+        <input type="text" onChange={onChange} />
+        <button type="submit">Search</button>
+      </form>
+      {!loading && <p>Found {length} countries</p>}
+    </>
+  )
 }
 
 export default Search
