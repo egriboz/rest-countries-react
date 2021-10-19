@@ -5,8 +5,9 @@ import Loading from './Loading'
 const CountryDetails = ({
   getCountry,
   getCountryBorders,
-  // countryborders,
+  countryborders,
   borderlists,
+  borders,
   country,
   match,
   loading

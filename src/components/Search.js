@@ -4,7 +4,7 @@ const Search = ({ getAllCountries, searchCountries, loading, length }) => {
   const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
-    console.log(loading)
+    // console.log(loading)
   }, [])
 
   const onChange = (e) => {

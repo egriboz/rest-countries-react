@@ -1,150 +1,138 @@
-import React, { Component } from 'react'
-import {
-  BrowserRouter as Router,
-  Link,
-  NavLink,
-  Switch,
-  Route
-} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Navbar from './Navbar'
 import Search from './Search'
 import Countries from './Countries'
 import About from './Pages/About'
 import CountryDetails from './CountryDetails'
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.searchCountries = this.searchCountries.bind(this)
-    this.getAllCountries = this.getAllCountries.bind(this)
-    this.getCountry = this.getCountry.bind(this)
-    this.getCountryBorders = this.getCountryBorders.bind(this)
-    this.state = {
-      loading: false,
-      countries: [],
-      countryborders: [],
-      borderlists: [],
-      country: {}
-    }
-  }
+const App = () => {
+  const [loading, setLoading] = useState(false)
+  const [countries, setCountries] = useState([])
+  const [countryborders, setCountryborders] = useState([])
+  const [borderlists, setBorderlists] = useState([])
+  const [country, setCountry] = useState({})
+  const borders = []
 
-  async componentDidMount() {
-    this.getAllCountries()
-  }
+  useEffect(() => {
+    getAllCountries()
+  }, [])
 
-  async getAllCountries() {
+  const getAllCountries = async () => {
     try {
-      this.setState({ loading: true })
+      setLoading(true)
       const response = await fetch('https://restcountries.com/v2/all')
       const jsonData = await response.json()
-      this.setState({ countries: jsonData, loading: false })
+      setCountries(jsonData)
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
   }
 
-  async searchCountries(keyword) {
+  const searchCountries = async (keyword) => {
     try {
-      this.setState({ loading: true })
+      setLoading(true)
       const response = await fetch(
         `https://restcountries.com/v2/name/${keyword}`
       )
       const jsonData = await response.json()
-      this.setState({ countries: jsonData, loading: false })
+      setCountries(jsonData)
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
   }
-  async getCountry(alpha3Code) {
+  const getCountry = async (alpha3Code) => {
     try {
-      this.setState({ loading: true })
+      setLoading(true)
       const response = await fetch(
         `https://restcountries.com/v2/alpha/${alpha3Code}`
       )
       const jsonData = await response.json()
-      this.setState({ country: jsonData, loading: false })
+      setCountry(jsonData)
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
   }
 
-  async getCountryBorders(alpha3Code) {
+  const getCountryBorders = async (alpha3Code) => {
     try {
-      this.setState({ loading: true })
+      setLoading(true)
       const response = await fetch(
         `https://restcountries.com/v2/alpha/${alpha3Code}`
       )
       const jsonData = await response.json()
       const borders = await jsonData.borders.map((item) => item)
-      this.setState({ countryborders: borders, loading: false })
-      this.aFunc()
+
+      setCountryborders(borders)
+      setLoading(false)
+      aFunc(borders)
     } catch (error) {
       console.warn(
         'It does not have neighboring countries. ============== > ',
         error
       )
-      this.setState({ countryborders: [], borderlists: [] })
+      setCountryborders([])
+      setBorderlists([])
     }
   }
 
-  async aFunc() {
+  const aFunc = async (borders) => {
     try {
-      this.setState({ loading: true })
+      setLoading(true)
       const response = await fetch(
-        `https://restcountries.com/v2/alpha?codes=${this.state.countryborders}`
+        `https://restcountries.com/v2/alpha?codes=${borders}`
       )
       const jsonData = await response.json()
-      this.setState({ borderlists: jsonData, loading: false })
+      setBorderlists(jsonData)
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
   }
 
-  render() {
-    const loading = this.state.loading
-    return (
-      <Router>
-        <Navbar title="Country Info" />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(props) => (
-              <>
-                <Search
-                  searchCountries={this.searchCountries}
-                  getAllCountries={this.getAllCountries}
-                  loading={this.state.loading}
-                  length={this.state.countries.length}
-                />
-                <Countries
-                  countries={this.state.countries}
-                  loading={this.state.loading}
-                />
-              </>
-            )}
-          />
-          <Route path="/about" component={About} />
-          <Route
-            path="/country/:alpha3Code"
-            render={(props) => (
-              <>
-                <CountryDetails
-                  {...props}
-                  getCountryBorders={this.getCountryBorders}
-                  getCountry={this.getCountry}
-                  country={this.state.country}
-                  countryborders={this.state.countryborders}
-                  borderlists={this.state.borderlists}
-                  loading={this.state.loading}
-                />
-              </>
-            )}
-          />
-        </Switch>
-      </Router>
-    )
-  }
+  return (
+    <Router>
+      <Navbar title="Country Info" />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) => (
+            <>
+              <Search
+                searchCountries={searchCountries}
+                getAllCountries={getAllCountries}
+                loading={loading}
+                length={countries.length}
+              />
+              <Countries countries={countries} loading={loading} />
+            </>
+          )}
+        />
+        <Route path="/about" component={About} />
+        <Route
+          path="/country/:alpha3Code"
+          render={(props) => (
+            <>
+              <CountryDetails
+                {...props}
+                borders={borders}
+                getCountryBorders={getCountryBorders}
+                getCountry={getCountry}
+                country={country}
+                countryborders={countryborders}
+                borderlists={borderlists}
+                loading={loading}
+              />
+            </>
+          )}
+        />
+      </Switch>
+    </Router>
+  )
 }
 
 export default App
