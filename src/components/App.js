@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 import Navbar from './Navbar'
 import Search from './Search'
 import Countries from './Countries'
 import About from './Pages/About'
 import CountryDetails from './CountryDetails'
+import { useRouteMatch } from 'react-router'
+
+import Test from './Test'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -68,7 +72,7 @@ const App = () => {
 
       setCountryborders(borders)
       setLoading(false)
-      aFunc(borders)
+      getBorderlists(borders)
     } catch (error) {
       console.warn(
         'It does not have neighboring countries. ============== > ',
@@ -79,7 +83,7 @@ const App = () => {
     }
   }
 
-  const aFunc = async (borders) => {
+  const getBorderlists = async (borders) => {
     try {
       setLoading(true)
       const response = await fetch(
@@ -102,6 +106,7 @@ const App = () => {
           path="/"
           render={(props) => (
             <>
+              <Test />
               <Search
                 searchCountries={searchCountries}
                 getAllCountries={getAllCountries}
@@ -113,6 +118,7 @@ const App = () => {
           )}
         />
         <Route path="/about" component={About} />
+        <Route path="/test" component={Test} />
         <Route
           path="/country/:alpha3Code"
           render={(props) => (
@@ -123,9 +129,11 @@ const App = () => {
                 getCountryBorders={getCountryBorders}
                 getCountry={getCountry}
                 country={country}
+                length={country.length}
                 countryborders={countryborders}
                 borderlists={borderlists}
                 loading={loading}
+                countries={borderlists}
               />
             </>
           )}
