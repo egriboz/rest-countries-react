@@ -25,7 +25,7 @@ const Countries = ({ countries, loading }) => {
   const setValueAndDirection = (value) => {
     switchDirection()
     setValue(value)
-    console.log('value', value)
+    // console.log('value', value)
   }
 
   if (loading) {

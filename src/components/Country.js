@@ -14,6 +14,7 @@ import {
 const Country = ({ country }) => {
   let { path, url } = useRouteMatch()
   const history = useHistory()
+
   const { alpha3Code } = country
   // console.log('alpha3Code', alpha3Code)
   useEffect(() => {
@@ -25,7 +26,8 @@ const Country = ({ country }) => {
     }
   }, [url])
   const handleRoute = () => {
-    history.push('/country/CAN')
+    history.push('/country/' + country.alpha3Code)
+    console.log('/country/' + country.alpha3Code)
   }
   return (
     <div className={cn('container', styles.countryBox)}>
@@ -44,6 +46,7 @@ const Country = ({ country }) => {
             <Link to={`/country/${country.alpha3Code}`} replace>
               ROUTE LINK
             </Link>
+            <button onClick={handleRoute}>Click Route</button>
             <a
               style={{ color: 'red', padding: '0 10px' }}
               href={`/country/${country.alpha3Code}`}

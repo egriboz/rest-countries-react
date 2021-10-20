@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+  Route
+} from 'react-router-dom'
 
 import Navbar from './Navbar'
 import Search from './Search'
@@ -7,7 +12,6 @@ import Countries from './Countries'
 import About from './Pages/About'
 import CountryDetails from './CountryDetails'
 import { useRouteMatch } from 'react-router'
-
 import Test from './Test'
 
 const App = () => {
@@ -47,6 +51,7 @@ const App = () => {
       console.log(error)
     }
   }
+
   const getCountry = async (alpha3Code) => {
     try {
       setLoading(true)
@@ -104,7 +109,7 @@ const App = () => {
         <Route
           exact
           path="/"
-          render={(props) => (
+          render={() => (
             <>
               <Test />
               <Search
@@ -138,6 +143,7 @@ const App = () => {
             </>
           )}
         />
+        <Redirect from="/country/:alpha3Code" to="/country/:alpha3Code" />
       </Switch>
     </Router>
   )
