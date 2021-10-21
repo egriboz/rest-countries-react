@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Redirect,
-  Route
+  Route,
+  useLocation
 } from 'react-router-dom'
 
 import Navbar from './Navbar'
@@ -12,6 +13,7 @@ import Countries from './Countries'
 import About from './Pages/About'
 import CountryDetails from './CountryDetails'
 import Test from './Test'
+import { CSSTransition } from 'react-transition-group'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -20,6 +22,7 @@ const App = () => {
   const [borderlists, setBorderlists] = useState([])
   const [country, setCountry] = useState({})
   const borders = []
+  // transition
 
   useEffect(() => {
     getAllCountries()
@@ -47,6 +50,7 @@ const App = () => {
       setCountries(jsonData)
       setLoading(false)
     } catch (error) {
+      setCountries([])
       console.log(error)
     }
   }
@@ -61,6 +65,7 @@ const App = () => {
       setCountry(jsonData)
       setLoading(false)
     } catch (error) {
+      setCountries([])
       console.log(error)
     }
   }
@@ -104,6 +109,7 @@ const App = () => {
   return (
     <Router>
       <Navbar title="Country Info" />
+
       <Switch>
         <Route
           exact
@@ -121,8 +127,9 @@ const App = () => {
             </>
           )}
         />
-        <Route path="/about" component={About} />
+        {/* <Route path="/about" component={About} /> */}
         <Route path="/test" component={Test} />
+        <Route path="/region/:slug" component={Test} />
         <Route
           path="/country/:alpha3Code"
           render={(props) => (
@@ -142,7 +149,21 @@ const App = () => {
             </>
           )}
         />
-        <Redirect from="/country/:alpha3Code" to="/country/:alpha3Code" />
+
+        <Route exact path="/about">
+          {({ match }) => (
+            <CSSTransition
+              in={match != null}
+              timeout={300}
+              classNames="page"
+              unmountOnExit
+            >
+              <div className="page">
+                <About />
+              </div>
+            </CSSTransition>
+          )}
+        </Route>
       </Switch>
     </Router>
   )
