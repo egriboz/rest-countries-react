@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
-const Search = ({
-  getAllCountries,
-  country,
-  searchCountries,
-  loading,
-  length
-}) => {
+const Search = ({ getAllCountries, searchCountries, length }) => {
   const [keyword, setKeyword] = useState('')
-
-  // useEffect(() => {
-  //   console.log('length', length)
-  // }, [length])
 
   const onChange = (e) => {
     setKeyword(e.target.value)
@@ -31,7 +21,6 @@ const Search = ({
         <input type="text" onChange={onChange} />
         <button type="submit">Search</button>
       </form>
-      {/* {!loading && <p>Found {length} countries</p>} */}
       {(() => {
         if (length === undefined) {
           return null

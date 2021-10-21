@@ -17,11 +17,7 @@ const CountryDetails = ({
   useEffect(() => {
     getCountry(match.params.alpha3Code)
     getCountryBorders(match.params.alpha3Code)
-  }, [])
-
-  useEffect(() => {
-    console.log('countries', countries)
-  }, [countries])
+  }, [match.params.alpha3Code])
 
   if (loading) {
     return <Loading />

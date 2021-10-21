@@ -13,10 +13,7 @@ const Navbar = ({ title }) => {
       <NavLink to="/about" activeClassName="selected">
         About
       </NavLink>
-      |
-      <NavLink to="/country/tur" activeClassName="selected">
-        Turkey
-      </NavLink>
+      <Link to="/country/tur">Turkey L</Link>|
       <Link to="/test/hello">TestLink</Link>
     </>
   )

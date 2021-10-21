@@ -11,7 +11,6 @@ import Search from './Search'
 import Countries from './Countries'
 import About from './Pages/About'
 import CountryDetails from './CountryDetails'
-import { useRouteMatch } from 'react-router'
 import Test from './Test'
 
 const App = () => {
