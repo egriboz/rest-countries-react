@@ -4,6 +4,7 @@ import {
   Switch,
   Redirect,
   Route,
+  useHistory,
   useLocation
 } from 'react-router-dom'
 
@@ -21,8 +22,14 @@ const App = () => {
   const [countryborders, setCountryborders] = useState([])
   const [borderlists, setBorderlists] = useState([])
   const [country, setCountry] = useState({})
+
   const borders = []
   // transition
+
+  // const location = useLocation()
+  // console.log('location', location.pathname)
+  // const history = useHistory()
+  // console.log('history', history.location.pathname)
 
   useEffect(() => {
     getAllCountries()
@@ -39,7 +46,22 @@ const App = () => {
       console.log(error)
     }
   }
+  //
 
+  const getRegion = async (region) => {
+    try {
+      setLoading(true)
+      const response = await fetch(
+        `https://restcountries.com/v2/region/${region}`
+      )
+      const jsonData = await response.json()
+      setCountries(jsonData)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  //
   const searchCountries = async (keyword) => {
     try {
       setLoading(true)
@@ -108,7 +130,12 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar title="Country Info" />
+      <Navbar
+        getAllCountries={getAllCountries}
+        getRegion={getRegion}
+        loading={loading}
+        title="Country Info"
+      />
 
       <Switch>
         <Route
@@ -117,6 +144,7 @@ const App = () => {
           render={() => (
             <>
               <Test />
+
               <Search
                 searchCountries={searchCountries}
                 getAllCountries={getAllCountries}
@@ -127,9 +155,18 @@ const App = () => {
             </>
           )}
         />
+        <Route
+          exact
+          path="/region/:region"
+          render={() => (
+            <>
+              <Countries countries={countries} loading={loading} />
+            </>
+          )}
+        />
         {/* <Route path="/about" component={About} /> */}
         <Route path="/test" component={Test} />
-        <Route path="/region/:slug" component={Test} />
+
         <Route
           path="/country/:alpha3Code"
           render={(props) => (

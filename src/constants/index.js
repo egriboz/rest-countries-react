@@ -1,9 +1,5 @@
 export const REGION = [
   {
-    title: 'All',
-    region: ''
-  },
-  {
     title: 'Asia',
     region: 'asia'
   },
