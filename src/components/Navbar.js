@@ -3,11 +3,14 @@ import { NavLink, Link, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { REGION } from '../constants'
 const Navbar = ({ title, getAllCountries, getRegion, loading }) => {
+  const [click, setClick] = useState(false)
+
   const location = useLocation()
 
   const onClick = (e) => {
     let rgn = e.target.getAttribute('data-region')
     getRegion(rgn)
+    setClick(true)
   }
 
   const lastPath = window.location.pathname.substring(
@@ -16,17 +19,19 @@ const Navbar = ({ title, getAllCountries, getRegion, loading }) => {
   const firstPath = window.location.pathname.split('/')[1]
 
   useEffect(() => {
-    console.log('useLocationuseLocationuseLocation', location.pathname)
-
-    if (firstPath === 'region') {
-      // console.log('region sayfa...', window.location.pathname)
+    if (firstPath === 'region' && click) {
       getRegion(lastPath)
+      console.log('region page - with click')
+    } else if (firstPath === 'region' && !click) {
+      setTimeout(() => {
+        getRegion(lastPath)
+        console.log('region page - refresh')
+      }, 500)
     } else {
       getAllCountries()
-      // console.log('herhangi bir sayfa...', window.location.pathname)
+      console.log('not region page')
     }
-    // console.log('lastPath:::', firstPath, '---', lastPath)
-  }, [location.pathname])
+  }, [lastPath])
 
   return (
     <>
@@ -38,7 +43,8 @@ const Navbar = ({ title, getAllCountries, getRegion, loading }) => {
       <NavLink to="/about" activeClassName="selected">
         About
       </NavLink>
-      <Link to="/country/tur">Turkey L</Link>|
+      |<NavLink to="/country/tur">Turkey</NavLink>| |
+      <NavLink to="/region">Region</NavLink>|
       <Link to="/test/hello">TestLink</Link>
       <div className="regionBox">
         {REGION.map((item) => {

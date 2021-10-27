@@ -12,6 +12,7 @@ import Navbar from './Navbar'
 import Search from './Search'
 import Countries from './Countries'
 import About from './Pages/About'
+import Region from './Pages/Region'
 import CountryDetails from './CountryDetails'
 import Test from './Test'
 
@@ -29,18 +30,18 @@ const App = () => {
   }, [])
 
   // useEffect(() => {
-  //   setTimeout(() => {
-  //     // setKeyword('turki')
-  //     console.log('---***----****----')
-  //   }, 1000)
-  // })
+  //   searchCountries('turkiye')
+  //   console.log(
+  //     '-------------------------------------------------------------------'
+  //   )
+  // }, [searchCountries])
 
   const getAllCountries = async () => {
     try {
       setLoading(true)
       const response = await fetch('https://restcountries.com/v2/all')
       const jsonData = await response.json()
-      setCountries(jsonData)
+      setCountries(await jsonData)
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -55,7 +56,7 @@ const App = () => {
         `https://restcountries.com/v2/region/${region}`
       )
       const jsonData = await response.json()
-      setCountries(jsonData)
+      setCountries(await jsonData)
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -63,13 +64,14 @@ const App = () => {
   }
   //
   const searchCountries = async (keyword) => {
+    console.log('keywordkeywordkeywordkeyword', keyword)
     try {
       setLoading(true)
       const response = await fetch(
         `https://restcountries.com/v2/name/${keyword}`
       )
       const jsonData = await response.json()
-      setCountries(jsonData)
+      setCountries(await jsonData)
       setLoading(false)
     } catch (error) {
       setCountries([])
@@ -84,7 +86,7 @@ const App = () => {
         `https://restcountries.com/v2/alpha/${alpha3Code}`
       )
       const jsonData = await response.json()
-      setCountry(jsonData)
+      setCountry(await jsonData)
       setLoading(false)
     } catch (error) {
       setCountries([])
@@ -101,9 +103,9 @@ const App = () => {
       const jsonData = await response.json()
       const borders = await jsonData.borders.map((item) => item)
 
-      setCountryborders(borders)
+      setCountryborders(await borders)
+      getBorderlists(await borders)
       setLoading(false)
-      getBorderlists(borders)
     } catch (error) {
       console.warn(
         'It does not have neighboring countries. ============== > ',
@@ -121,7 +123,7 @@ const App = () => {
         `https://restcountries.com/v2/alpha?codes=${borders}`
       )
       const jsonData = await response.json()
-      setBorderlists(jsonData)
+      setBorderlists(await jsonData)
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -155,6 +157,7 @@ const App = () => {
             </>
           )}
         />
+        <Route exact path="/region" component={Region} />
         <Route
           exact
           path="/region/:region"

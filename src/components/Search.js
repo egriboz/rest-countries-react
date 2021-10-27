@@ -14,7 +14,7 @@ const Search = ({ getAllCountries, searchCountries, length }) => {
       searchCountries(keyword)
     }
   }
-  const userType = 1
+
   return (
     <>
       <form onSubmit={onSubmit} style={{ marginTop: '20px' }}>
