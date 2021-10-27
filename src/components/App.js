@@ -14,7 +14,6 @@ import Countries from './Countries'
 import About from './Pages/About'
 import CountryDetails from './CountryDetails'
 import Test from './Test'
-import { CSSTransition } from 'react-transition-group'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -24,16 +23,17 @@ const App = () => {
   const [country, setCountry] = useState({})
 
   const borders = []
-  // transition
-
-  // const location = useLocation()
-  // console.log('location', location.pathname)
-  // const history = useHistory()
-  // console.log('history', history.location.pathname)
 
   useEffect(() => {
     getAllCountries()
   }, [])
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     // setKeyword('turki')
+  //     console.log('---***----****----')
+  //   }, 1000)
+  // })
 
   const getAllCountries = async () => {
     try {
@@ -164,7 +164,7 @@ const App = () => {
             </>
           )}
         />
-        {/* <Route path="/about" component={About} /> */}
+        <Route path="/about" component={About} />
         <Route path="/test" component={Test} />
 
         <Route
@@ -186,21 +186,6 @@ const App = () => {
             </>
           )}
         />
-
-        <Route exact path="/about">
-          {({ match }) => (
-            <CSSTransition
-              in={match != null}
-              timeout={300}
-              classNames="page"
-              unmountOnExit
-            >
-              <div className="page">
-                <About />
-              </div>
-            </CSSTransition>
-          )}
-        </Route>
       </Switch>
     </Router>
   )
